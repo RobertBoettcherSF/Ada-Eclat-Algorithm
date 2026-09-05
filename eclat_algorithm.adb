@@ -34,7 +34,7 @@ package body Eclat_Algorithm is
          end;
       else
          declare
-            S : TID_Sets.Set;
+            S : TID_Sets.Set := TID_Sets.Empty_Set;
          begin
             S.Insert (TID);
             DB.Data.Insert (Item, S);
@@ -113,7 +113,6 @@ package body Eclat_Algorithm is
    is
       Results      : Itemset_Vectors.Vector;
       Root_Class   : Node_Vectors.Vector;
-      Empty_Prefix : Item_Sets.Set;
    begin
       if Min_Sup = 0 then
          raise Invalid_Min_Support with "Minimum support must be greater than 0.";
@@ -136,7 +135,7 @@ package body Eclat_Algorithm is
          end;
       end loop;
 
-      Eclat_Rec (Empty_Prefix, Root_Class, Min_Sup, Results);
+      Eclat_Rec (Item_Sets.Empty_Set, Root_Class, Min_Sup, Results);
       return Results;
    end Mine_Standard;
 
@@ -199,7 +198,7 @@ package body Eclat_Algorithm is
       for I in 1 .. Natural (Class.Length) loop
          declare
             Curr_Node  : constant Equivalence_Node := Class.Element (I);
-            New_Prefix : Item_Sets.Set;
+            New_Prefix : Item_Sets.Set := Item_Sets.Empty_Set;
             New_Class  : Node_Vectors.Vector;
          begin
             New_Prefix.Insert (Curr_Node.Item);
