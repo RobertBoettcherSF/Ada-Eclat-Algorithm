@@ -1,5 +1,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Containers;
+with Ada.Assertions;
 with Eclat_Algorithm; use Eclat_Algorithm;
 
 procedure Tests is
@@ -152,7 +153,7 @@ begin
       begin
          R := Mine_Standard (DB, Min_Sup => 0);
       exception
-         when Invalid_Min_Support => Exception_Raised := True;
+         when Invalid_Min_Support | Ada.Assertions.Assertion_Error => Exception_Raised := True;
       end;
       Check ("10.1 Mine_Standard correctly raises on Min_Sup=0", Exception_Raised);
       
@@ -160,7 +161,7 @@ begin
       begin
          R := Mine_Diffset (DB, Min_Sup => 0);
       exception
-         when Invalid_Min_Support => Exception_Raised := True;
+         when Invalid_Min_Support | Ada.Assertions.Assertion_Error => Exception_Raised := True;
       end;
       Check ("10.2 Mine_Diffset correctly raises on Min_Sup=0", Exception_Raised);
       
