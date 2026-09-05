@@ -23,7 +23,7 @@ package body Eclat_Algorithm is
       TID  : Transaction_ID)
    is
       use DB_Maps;
-      Pos : Cursor := DB.Data.Find (Item);
+      Pos : constant Cursor := DB.Data.Find (Item);
    begin
       if Has_Element (Pos) then
          declare
@@ -76,7 +76,7 @@ package body Eclat_Algorithm is
          begin
             -- Extend the current prefix with the current item
             New_Prefix.Insert (Curr_Node.Item);
-            Results.Append ((Items => New_Prefix, Support => Curr_Node.Support));
+            Results.Append (Itemset_Type'(Items => New_Prefix, Support => Curr_Node.Support));
 
             -- Generate the equivalence class for the extended prefix
             for J in I + 1 .. Natural (Class.Length) loop
@@ -89,9 +89,9 @@ package body Eclat_Algorithm is
                begin
                   if New_Support >= Min_Sup then
                      New_Class.Append
-                       ((Item    => Next_Node.Item,
-                         TIDs    => New_TIDs,
-                         Support => New_Support));
+                       (Equivalence_Node'(Item    => Next_Node.Item,
+                                          TIDs    => New_TIDs,
+                                          Support => New_Support));
                   end if;
                end;
             end loop;
@@ -130,7 +130,7 @@ package body Eclat_Algorithm is
             Sup      : constant Support_Count := Support_Count (TID_Set.Length);
          begin
             if Sup >= Min_Sup then
-               Root_Class.Append ((Item => Item_Key, TIDs => TID_Set, Support => Sup));
+               Root_Class.Append (Equivalence_Node'(Item => Item_Key, TIDs => TID_Set, Support => Sup));
             end if;
          end;
       end loop;
@@ -156,7 +156,7 @@ package body Eclat_Algorithm is
             New_Class  : Node_Vectors.Vector;
          begin
             New_Prefix.Insert (Curr_Node.Item);
-            Results.Append ((Items => New_Prefix, Support => Curr_Node.Support));
+            Results.Append (Itemset_Type'(Items => New_Prefix, Support => Curr_Node.Support));
 
             for J in I + 1 .. Natural (Class.Length) loop
                declare
@@ -172,9 +172,9 @@ package body Eclat_Algorithm is
                begin
                   if New_Support >= Min_Sup then
                      New_Class.Append
-                       ((Item    => Next_Node.Item,
-                         TIDs    => New_Diffset,
-                         Support => New_Support));
+                       (Equivalence_Node'(Item    => Next_Node.Item,
+                                          TIDs    => New_Diffset,
+                                          Support => New_Support));
                   end if;
                end;
             end loop;
@@ -202,7 +202,7 @@ package body Eclat_Algorithm is
             New_Class  : Node_Vectors.Vector;
          begin
             New_Prefix.Insert (Curr_Node.Item);
-            Results.Append ((Items => New_Prefix, Support => Curr_Node.Support));
+            Results.Append (Itemset_Type'(Items => New_Prefix, Support => Curr_Node.Support));
 
             for J in I + 1 .. Natural (Class.Length) loop
                declare
@@ -217,9 +217,9 @@ package body Eclat_Algorithm is
                begin
                   if New_Support >= Min_Sup then
                      New_Class.Append
-                       ((Item    => Next_Node.Item,
-                         TIDs    => New_Diffset,
-                         Support => New_Support));
+                       (Equivalence_Node'(Item    => Next_Node.Item,
+                                          TIDs    => New_Diffset,
+                                          Support => New_Support));
                   end if;
                end;
             end loop;
@@ -258,7 +258,7 @@ package body Eclat_Algorithm is
             Sup      : constant Support_Count := Support_Count (TID_Set.Length);
          begin
             if Sup >= Min_Sup then
-               Root_Class.Append ((Item => Item_Key, TIDs => TID_Set, Support => Sup));
+               Root_Class.Append (Equivalence_Node'(Item => Item_Key, TIDs => TID_Set, Support => Sup));
             end if;
          end;
       end loop;
